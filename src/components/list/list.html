@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="list.js"></script>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<template id="list-tmpl">
+    <style>
+        .list {
+            background-color: white;
+            border: 1px solid black;
+            padding: 10px;
+        }
+        .groupHeader
+        {
+            background: linear-gradient(to top, lightslategray, lightgray);
+            margin: 0;
+            text-align: left;
+            color: white;
+            border-top: 1px solid lightslategray;
+            border-bottom: 1px solid lightslategray;
+        }
+    </style>
+    <div id="list" class="list"></div>
+</template>
+<script>
+    ! function() {
+        var localDocument = document.currentScript.ownerDocument;
+        var tmpl = localDocument.getElementById('list-tmpl');
+        var ListProto = Object.create(HTMLElement.prototype);
+        var self = this;
+
+        ListProto.createdCallback = function() {
+            var root = this.createShadowRoot();
+            root.appendChild(tmpl.content.cloneNode(true));
+            listUtils.createList([{"name": "Иван", "surname": "Иванов", "birthday": new Date("04.12.1994")},
+                {"name": "Иван", "surname": "Бванов", "birthday": new Date("04.12.1994")},
+                {"name": "Иван", "surname": "Борианов", "birthday": new Date("04.12.1994")},
+                {"name": "Иван", "surname": "Тванов", "birthday": new Date("04.12.1994")}
+            ], "surname", $(root.getElementById('list')));
+
+        // console.log({
+        //     first: this.getAttribute('items'),
+        //     second: this.getAttribute('data-items')
+        // });
+        };
+
+        document.registerElement('ui-list', {
+            prototype: ListProto
+        });
+    }();
+</script>
+</body>
+
+</html>
